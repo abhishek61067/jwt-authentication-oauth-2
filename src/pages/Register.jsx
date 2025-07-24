@@ -14,8 +14,12 @@ import React from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router";
 import { useForm } from "react-hook-form";
+import { useRegister } from "../services/auth/auth.js";
+import { useToast } from "@chakra-ui/react";
 
 const Register = () => {
+  const toast = useToast();
+  const { mutateAsync: registerUser } = useRegister();
   const {
     register,
     handleSubmit,
@@ -29,8 +33,26 @@ const Register = () => {
     },
   });
 
-  const onSubmit = (formData) => {
-    console.log("formdata: ", formData);
+  const onSubmit = async (formData) => {
+    try {
+      await registerUser(formData);
+      toast({
+        title: "Registration Successful",
+        description: "You have successfully registered.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error("Registration failed:", error);
+      toast({
+        title: "Registration Failed",
+        description: error.response?.data?.message || "An error occurred.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -87,8 +109,8 @@ const Register = () => {
               color={"gray.400"}
               {...register("role", { required: "Role is required" })}
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="USER">User</option>
+              <option value="ADMIN">Admin</option>
             </Select>
             <FormErrorMessage>{errors?.role?.message}</FormErrorMessage>
           </FormControl>
