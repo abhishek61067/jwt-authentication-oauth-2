@@ -15,7 +15,6 @@ const MainLayout = () => {
       justifyContent="center"
       alignItems="center"
     >
-      {/* navbar */}
       <Navbar />
       <Outlet />
     </Box>
