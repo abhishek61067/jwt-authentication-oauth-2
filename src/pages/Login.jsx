@@ -13,8 +13,11 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useLogin } from "../services/auth/auth";
+import { useAuthStore } from "../store/authStore";
 
 const Login = () => {
+  const { setTokens } = useAuthStore();
+
   const { mutateAsync: login } = useLogin();
 
   const {
@@ -33,7 +36,13 @@ const Login = () => {
   const onSubmit = async (data) => {
     console.log("formdata: ", data);
     try {
-      await login(data);
+      const response = await login(data);
+      const { accessToken, refreshToken } = response.data;
+      setTokens({
+        accessToken,
+        refreshToken,
+      });
+
       navigate("/product");
     } catch (error) {
       console.error("Login failed: ", error);

@@ -10,8 +10,23 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "./../store/authStore";
+import { AxiosInstance } from "./../services/auth/AxiosInstance";
 
 export const Navbar = () => {
+  const { accessToken, clearTokens } = useAuthStore();
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    try {
+      await AxiosInstance.post("users/logout");
+      clearTokens();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <Box
       boxShadow="0 4px 10px rgba(0, 0, 0, 0.2)" // black shadow with opacity
@@ -64,26 +79,37 @@ export const Navbar = () => {
 
           {/* Navigation Buttons */}
           <HStack spacing={{ base: 2, md: 4 }} mt={{ base: 2, md: 0 }}>
-            <>
-              <Link to="/login">
-                <Button
-                  colorScheme="cyan"
-                  color="black"
-                  size={{ base: "sm", md: "md" }}
-                >
-                  Login
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button
-                  variant="outline"
-                  colorScheme="cyan"
-                  size={{ base: "sm", md: "md" }}
-                >
-                  Register
-                </Button>
-              </Link>
-            </>
+            {!accessToken ? (
+              <>
+                <Link to="/login">
+                  <Button
+                    colorScheme="cyan"
+                    color="black"
+                    size={{ base: "sm", md: "md" }}
+                  >
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button
+                    variant="outline"
+                    colorScheme="cyan"
+                    size={{ base: "sm", md: "md" }}
+                  >
+                    Register
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <Button
+                colorScheme="cyan"
+                color="black"
+                size={{ base: "sm", md: "md" }}
+                onClick={logout}
+              >
+                Logout
+              </Button>
+            )}
           </HStack>
         </Flex>
       </Container>
