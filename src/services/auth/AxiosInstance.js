@@ -9,13 +9,14 @@ export const AxiosInstance = axios.create({
 
 // request interceptor to add access token
 AxiosInstance.interceptors.request.use(
-  () => {
+  (config) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       AxiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${token}`;
     }
+    return config;
   },
   (error) => Promise.reject(error)
 );

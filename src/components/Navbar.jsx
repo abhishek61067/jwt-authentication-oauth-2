@@ -56,7 +56,7 @@ export const Navbar = () => {
             mx={{ base: 2, md: 20 }}
             mt={{ base: 2, md: 0 }}
           >
-            <Link to="/catalog">
+            <Link to="/product">
               <Text
                 fontSize={{ base: "md", md: "xl" }}
                 _hover={{ color: "blue.300" }}
