@@ -12,11 +12,6 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: "/",
-        element: <Text color={"white"}>Hello World</Text>,
-      },
-
-      {
         path: "/register",
         element: <Register />,
       },
