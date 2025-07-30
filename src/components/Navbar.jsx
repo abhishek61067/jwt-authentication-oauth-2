@@ -78,7 +78,11 @@ export const Navbar = () => {
           </Box>
 
           {/* Navigation Buttons */}
-          <HStack spacing={{ base: 2, md: 4 }} mt={{ base: 2, md: 0 }}>
+          <HStack
+            display={{ base: "none", md: "flex" }}
+            spacing={{ base: 2, md: 4 }}
+            mt={{ base: 2, md: 0 }}
+          >
             {!accessToken ? (
               <>
                 <Link to="/login">
