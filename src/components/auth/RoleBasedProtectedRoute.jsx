@@ -9,13 +9,11 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
+import { useEffect } from "react";
 
-const RoleBasedProtectedRoute = ({ children, allowedRole }) => {
+const RoleBasedProtectedRoute = ({ children, allowedRole = [] }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { accessToken, userRole } = useAuthStore();
-  const [showNavigate, setShowNavigate] = useState(false);
 
   useEffect(() => {
     if (!accessToken) {
@@ -27,11 +25,10 @@ const RoleBasedProtectedRoute = ({ children, allowedRole }) => {
 
   const handleClose = () => {
     onClose();
-    setShowNavigate(true);
     if (!accessToken) {
-      window.location.href = "/login"; // Redirect to login page
+      window.location.href = "/login";
     } else {
-      window.location.href = "/unauthorized"; // Redirect to unauthorized page
+      window.location.href = "/unauthorized";
     }
   };
 
@@ -46,14 +43,16 @@ const RoleBasedProtectedRoute = ({ children, allowedRole }) => {
             <ModalHeader>Access Denied</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              {!accessToken
-                ? "You must be logged in to access this page."
-                : "You do not have permission to access this page."}
+              {!accessToken ? (
+                <Text>You must be logged in to access this page.</Text>
+              ) : (
+                <Text>You do not have permission to access this page.</Text>
+              )}
             </ModalBody>
 
             <ModalFooter>
               <Button colorScheme="blue" mr={3} onClick={handleClose}>
-                {!accessToken ? "Go to Login" : "Close"}
+                Go to Login
               </Button>
             </ModalFooter>
           </ModalContent>

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import Register from "../pages/Register";
 import MainLayout from "../layout/MainLayout";
 import { Text } from "@chakra-ui/react";
@@ -6,9 +6,9 @@ import Login from "../pages/Login";
 import Product from "./../pages/Product";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import Dashboard from "../dashboard/dashboard";
-import RoleBasedProtectedRoute from "./../components/auth/RoleBasedProtectedRoute";
 import Unauthorized from "../pages/Unauthorized";
 import Home from "./../pages/Home";
+import RoleBasedProtectedRoute from "../components/auth/RoleBasedProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -42,10 +42,6 @@ export const router = createBrowserRouter([
             <Dashboard />
           </RoleBasedProtectedRoute>
         ),
-      },
-      {
-        path: "/unauthorized",
-        element: <Unauthorized />,
       },
     ],
   },
