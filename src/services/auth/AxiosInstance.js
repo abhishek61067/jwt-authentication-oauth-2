@@ -41,7 +41,7 @@ AxiosInstance.interceptors.response.use(
           "https://api.freeapi.app/api/v1/users/refresh-token",
           { refreshToken }
         );
-        const { accessToken } = res.data;
+        const { accessToken } = res.data.data;
         // update local storage and Axios headers
         localStorage.setItem("accessToken", accessToken);
         originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
