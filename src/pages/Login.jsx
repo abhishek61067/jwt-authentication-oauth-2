@@ -1,3 +1,6 @@
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+
 import {
   Box,
   Button,
@@ -6,12 +9,19 @@ import {
   FormLabel,
   Heading,
   Input,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useLogin } from "../services/auth/auth";
 import { useAuthStore } from "../store/authStore";
+import { auth } from "../services/auth/firebaseConfig.js";
+import {
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 
 const Login = () => {
   const { setTokens } = useAuthStore();
@@ -46,6 +56,39 @@ const Login = () => {
       navigate("/product");
     } catch (error) {
       console.error("Login failed: ", error);
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("google logged in user:", result.user);
+      const { accessToken, refreshToken } = result.user.stsTokenManager;
+      setTokens({
+        accessToken,
+        refreshToken,
+        userRole: "USER",
+      });
+      navigate("/product");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const signInWithGithub = async () => {
+    const provider = new GithubAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("github logged in user:", result.user);
+      const { accessToken, refreshToken } = result.user.stsTokenManager;
+      setTokens({
+        accessToken,
+        refreshToken,
+        userRole: "USER",
+      });
+      navigate("/product");
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -104,6 +147,14 @@ const Login = () => {
             onClick={() => navigate("/register")}
           >
             Create an account
+          </Button>
+          <Button width={"full"} onClick={signInWithGoogle}>
+            <Text me={5}>Sign in With Google</Text>
+            <FcGoogle size={24} />
+          </Button>
+          <Button width={"full"} onClick={signInWithGithub}>
+            <Text me={5}>Sign in With Github</Text>
+            <FaGithub size={24} />
           </Button>
         </VStack>
       </form>
