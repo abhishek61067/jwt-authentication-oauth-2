@@ -36,6 +36,7 @@ export const Navbar = () => {
       left="0"
       right="0"
       zIndex="1000"
+      bgGradient="linear(to-r, #10263b, #0a111b)"
     >
       <Container maxW="6xl" px={{ base: 4, md: 8 }}>
         <Flex align="center" justify="space-between" flexWrap="wrap">

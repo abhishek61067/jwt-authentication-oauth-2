@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+import { FaFacebook, FaGithub } from "react-icons/fa";
 
 import {
   Box,
@@ -18,6 +18,7 @@ import { useLogin } from "../services/auth/auth";
 import { useAuthStore } from "../store/authStore";
 import { auth } from "../services/auth/firebaseConfig.js";
 import {
+  FacebookAuthProvider,
   GithubAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
@@ -80,6 +81,22 @@ const Login = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       console.log("github logged in user:", result.user);
+      const { accessToken, refreshToken } = result.user.stsTokenManager;
+      setTokens({
+        accessToken,
+        refreshToken,
+        userRole: "USER",
+      });
+      navigate("/product");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const signInWithFacebook = async () => {
+    const provider = new FacebookAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("fb logged in user:", result.user);
       const { accessToken, refreshToken } = result.user.stsTokenManager;
       setTokens({
         accessToken,
@@ -155,6 +172,10 @@ const Login = () => {
           <Button width={"full"} onClick={signInWithGithub}>
             <Text me={5}>Sign in With Github</Text>
             <FaGithub size={24} />
+          </Button>
+          <Button width={"full"} onClick={signInWithFacebook}>
+            <Text me={5}>Sign in With Facebook</Text>
+            <FaFacebook color="blue" size={24} />
           </Button>
         </VStack>
       </form>
