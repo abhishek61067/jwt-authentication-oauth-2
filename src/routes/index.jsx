@@ -4,7 +4,7 @@ import MainLayout from "../layout/MainLayout";
 import Login from "../pages/Login";
 import Product from "./../pages/Product";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
-import Dashboard from "../dashboard/dashboard";
+import Dashboard from "../dashboard/Dashboard";
 import Unauthorized from "../pages/Unauthorized";
 import Home from "./../pages/Home";
 import RoleBasedProtectedRoute from "../components/auth/RoleBasedProtectedRoute";
