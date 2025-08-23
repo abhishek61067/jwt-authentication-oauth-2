@@ -12,6 +12,7 @@ import {
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "./../store/authStore";
 import { AxiosInstance } from "./../services/auth/AxiosInstance";
+import Logo from "../assets/ecommerce-logo.svg";
 
 export const Navbar = () => {
   const { accessToken, clearTokens } = useAuthStore();
@@ -43,7 +44,7 @@ export const Navbar = () => {
           {/* Logo */}
           <Link to="/">
             <Image
-              src="/src/assets/ecommerce-logo.svg"
+              src={Logo}
               alt="E-commerce Logo"
               boxSize="50px"
               objectFit="contain"
