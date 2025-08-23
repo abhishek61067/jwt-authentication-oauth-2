@@ -15,6 +15,7 @@ const MainLayout = () => {
       alignItems="center"
     >
       <Navbar />
+
       <Outlet />
     </Box>
   );
